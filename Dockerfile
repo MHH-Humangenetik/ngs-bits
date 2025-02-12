@@ -29,15 +29,15 @@ RUN apt-get update
 RUN ACCEPT_EULA=Y apt-get install -y msodbcsql17 unixodbc-dev mssql-tools
 # clone and build ngs-bits
 RUN mkdir -p /opt
-RUN cd /opt
+WORKDIR /opt
 RUN git clone https://github.com/imgag/ngs-bits.git
-RUN cd ngs-bits
+WORKDIR /opt/ngs-bits
 RUN git checkout 2025_01 && git submodule update --recursive --init
 RUN make build_3rdparty
 RUN make build_libs_release
 RUN make build_tools_release
 # cleanup build dependencies
-RUN cd /
+WORKDIR /
 RUN find /opt/ngs-bits -mindepth 1 -maxdepth 1 ! -name 'bin' -exec rm -rf {} +
 RUN apt-get remove -y \
     	git \
