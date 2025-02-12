@@ -20,13 +20,14 @@ RUN apt-get update --fix-missing && \
     	libcurl4 \
     	libcurl4-openssl-dev \
     	zlib1g-dev \
+		ca-certificates \
     	curl \
     	gnupg
 # MSSQL in QT
-RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft.gpg
-RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/ubuntu/22.04/prod jammy main" | tee /etc/apt/sources.list.d/mssql-release.list
-RUN apt-get update
-RUN ACCEPT_EULA=Y apt-get install -y msodbcsql17 unixodbc-dev mssql-tools
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft.gpg && \
+	echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/ubuntu/22.04/prod jammy main" | tee /etc/apt/sources.list.d/mssql-release.list && \
+	apt-get update && \
+	ACCEPT_EULA=Y apt-get install -y msodbcsql17 unixodbc-dev mssql-tools
 # clone and build ngs-bits
 RUN mkdir -p /opt
 WORKDIR /opt
