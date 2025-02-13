@@ -1,8 +1,7 @@
 FROM ubuntu:24.04
 ENV PATH=/opt/ngs-bits/bin:/bin:$PATH LANG=C.UTF-8 LC_ALL=C.UTF-8
 # update ubuntu packages and install build dependencies
-RUN apt-get update --fix-missing && \
-    yes | apt-get upgrade && \
+RUN apt-get update && \
     apt-get install -y \
     	git \
     	make \
