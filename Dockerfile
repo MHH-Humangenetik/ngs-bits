@@ -25,7 +25,7 @@ RUN apt-get update && \
     	gnupg
 # MSSQL in QT
 RUN wget --no-check-certificate -qO - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft.gpg && \
-	echo "deb [arch=$TARGETPLATFORM signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/ubuntu/22.04/prod jammy main" | tee /etc/apt/sources.list.d/mssql-release.list && \
+	echo "deb [arch=${TARGETPLATFORM##*/} signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/ubuntu/22.04/prod jammy main" | tee /etc/apt/sources.list.d/mssql-release.list && \
 	apt-get update && \
 	ACCEPT_EULA=Y apt-get install -y msodbcsql17 unixodbc-dev mssql-tools
 # clone and build ngs-bits
