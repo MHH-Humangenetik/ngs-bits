@@ -1,5 +1,8 @@
 FROM ubuntu:24.04
 
+# set version of ngs-bits to build, default is master, use --build-arg NGS-BITS_VERSION=label to build a specific version
+ARG NGS_BITS_VERSION=master
+
 ENV PATH=/opt/ngs-bits/bin:/bin:$PATH LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 # update ubuntu packages and install build dependencies
@@ -29,7 +32,7 @@ RUN mkdir -p /opt
 WORKDIR /opt
 RUN git clone https://github.com/imgag/ngs-bits.git
 WORKDIR /opt/ngs-bits
-RUN git checkout 2025_01 && git submodule update --recursive --init
+RUN git checkout $NGS_BITS_VERSION && git submodule update --recursive --init
 RUN make build_3rdparty
 RUN make build_libs_release
 RUN make build_tools_release
